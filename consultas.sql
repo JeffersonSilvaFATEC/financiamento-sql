@@ -1,0 +1,33 @@
+/*CONSULTA DE PRAZOS DA VISTORIA*/
+
+SELECT credenciado_vistoria,
+		round(avg(DATEDIFF(retorno_vistoria, pedido_vistoria)), 1) AS prazo_media,
+        count(datediff(retorno_vistoria, pedido_vistoria)) as prazo_cont from clientes
+        group by credenciado_vistoria
+        order by prazo_media desc;
+
+
+/*CONSULTA DE TIPOS DE PROGRAMA, VALOR POR AGENCIA*/
+
+
+SELECT count(*) qtde, sum(valor_financiamento) as total_financiado, programa, agencia from clientes
+GROUP BY programa, agencia
+order by qtde desc, total_financiado desc;
+
+
+/*CLIENTES COM VALOR DE FINANCIAMENTO ACIMA DA MEDIA*/
+
+SELECT nome, programa, valor_financiamento from clientes
+WHERE valor_financiamento > (SELECT avg(valor_financiamento) from clientes)
+order by valor_financiamento DESC;
+
+
+/*CRIANDO UM VIEW*/
+
+CREATE OR REPLACE VIEW vw_fin_por_faixa AS
+SELECT CASE when valor_financiamento is null then 'Sem valor' WHEN valor_financiamento <= 200000 then '1 - Até 200mil' when valor_financiamento <= 400000 then '2 - Até 400mil'
+when valor_financiamento > 400000 then '3 - Acima 400mil' else 'Sem Valor' END as faixa,
+count(*) as contagem,
+sum(valor_financiamento) as somatoria
+from clientes
+group by faixa;
