@@ -40,3 +40,18 @@ resultado3 = df.groupby("faixa_valor", dropna=False)["valor_financiamento"].agg(
 
 print(resultado3)
 print(resultado3["total_financiado"].sum())
+
+
+# Relatório 3: prazo da vistoria por credenciado
+
+
+df["pedido_vistoria"] = pd.to_datetime(df["pedido_vistoria"])
+df["retorno_vistoria"] = pd.to_datetime(df["retorno_vistoria"])
+
+df["prazo_vistoria"] = (df["retorno_vistoria"] - df["pedido_vistoria"]).dt.days
+
+resultado4 = df.groupby("credenciado_vistoria", dropna=False)["prazo_vistoria"].agg([("qtde", "count"), ("prazo_medio", "mean")])
+resultado4["prazo_medio"] = resultado4["prazo_medio"].round(1)
+
+print(resultado4)
+
