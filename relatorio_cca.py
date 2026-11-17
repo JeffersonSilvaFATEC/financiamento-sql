@@ -29,7 +29,6 @@ print(resultado2["total_financiado"].sum())
 print(resultado2["qtde"].sum())
 
 relatorio = resultado2.reset_index()
-relatorio.to_excel("relatorio_cca.xlsx", index=False)
 
 
 # Relatório 2: financiamento por faixa de valor
@@ -55,3 +54,9 @@ resultado4["prazo_medio"] = resultado4["prazo_medio"].round(1)
 
 print(resultado4)
 
+# Criando o excel com os 3 relatorios   
+
+with pd.ExcelWriter("relatorio_cca.xlsx") as writer:
+    relatorio.to_excel(writer, sheet_name="Programa e Agência", index=False)
+    resultado3.to_excel(writer, sheet_name="Faixa de Valor")
+    resultado4.to_excel(writer, sheet_name="Prazo Vistoria")
