@@ -35,5 +35,38 @@ Como a tabela só possui 29 linhas, ler a tabela toda é rápido. O ganho do ín
 
 
 
+## Relatório de financiamento com pandas
+
+Script em Python (`relatorio_cca.py`) lê a tabela `clientes` do banco MySQL `CCA` e gera relatórios de financiamento em um arquivo Excel, com uma aba por relatório.
+
+### O que o script faz
+
+- Lê a tabela `clientes` do MySQL e a carrega em um DataFrame (`df`), uma estrutura de dados do pandas com linhas, colunas e índice.
+- Calcula três relatórios com pandas:
+  1. Valor financiado por programa e agência.
+  2. Valor financiado por faixa de valor (até 200 mil, de 200 a 400 mil e acima de 400 mil).
+  3. Prazo médio da vistoria, em dias, por credenciado.
+- Grava os três relatórios em `relatorio_cca.xlsx`, cada um em uma aba.
+
+### Bibliotecas
+
+- **pandas:** lê os dados, agrupa e calcula os relatórios, e cria as abas do Excel.
+- **SQLAlchemy:** cria a conexão com o banco, com o `create_engine`. A conexão usa o usuário `root` do XAMPP, que por padrão tem senha vazia, e o banco `CCA`.
+- **PyMySQL:** driver que o SQLAlchemy usa por baixo para se comunicar com o MySQL.
+- **openpyxl:** biblioteca que o pandas usa para gravar o arquivo `.xlsx`.
+
+### Como rodar
+
+1. Deixe o MySQL ligado (XAMPP) e o banco `CCA` criado.
+2. Instale as bibliotecas: `pip install pandas sqlalchemy pymysql openpyxl`
+3. Se o seu MySQL tiver senha, ajuste a conexão no início do script.
+4. Execute: `python relatorio_cca.py`
+5. Feche o Excel antes de rodar de novo, senão o arquivo fica bloqueado para gravação.
+
+### Observações
+
+- Os dados do projeto são fictícios.
+- O arquivo `relatorio_cca.xlsx` não é enviado ao GitHub (está no `.gitignore`).
+
 
 
